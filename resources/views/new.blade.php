@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<form role="form" action="{{url("save")}}" method="post" enctype="multipart/form-data" id=form-new">
+<form role="form" method="post" enctype="multipart/form-data" id=form-new">
     @method("POST")
     @csrf
     <div class="card-body">
@@ -52,47 +52,26 @@
 </form>
 </body>
 <script type="text/javascript">
-    $(document).ready(function()
-    {
-        var submit = $("button[type='submit']");
-
-        // bắt sự kiện click vào nút Login
-        submit.click(function()
-        {
-            var name = $("input[name='name']").val();
-            var email = $("input[name='email']").val();
-            var telephone = $("input[name='telephone']").val();
-            var feedback = $("textarea[name='feedback']").val();
-
-            if (name == '') {
-                alert('Vui lòng nhập tên');
-                return false;
-            }
-
-            if (email == '') {
-                alert('Vui lòng nhập email');
-                return false;
-            }
-            if (telephone == '') {
-                alert('Vui lòng nhập số điện thoại');
-                return false;
-            }
-            var data = $('form#form-new').serialize();
-            $.ajax({
-                type : 'POST',
-                url  : '/list',
-                data : data,
-                success :  function(data)
-                {
-                    if(data == 'false')
-                    {
-                        alert('chua dien thu thong tin');
-                    }else{
-                        $('#content').html(data);
-                    }
-                }
-            });
-            return false;
+    $('#contactForm').on('submit',function(event){
+        event.preventDefault();
+        student_name = $('#student_name').val();
+        email = $('#email').val();
+        telephone = $('#telephone').val();
+        feedback = $('#feedback').val();
+        $.ajax({
+            url: "/survey",
+            type:"POST",
+            data:{
+                "_token": "{{ csrf_token() }}",
+                student_name:student_name,
+                email:email,
+                telephone:telephone,
+                feedback:feedback,
+            },
+            success:function(response){
+                alertify.success('Successfully!!!');
+                $("#contactForm")[0].reset();
+            },
         });
     });
 </script>

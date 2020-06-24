@@ -7,37 +7,19 @@ use Illuminate\Http\Request;
 
 class Webcontroller extends Controller
 {
-    public function list()
+    public function surveyStudent()
     {
-        $survey = Survey::all();
-        return view("list", [
-            "survey" => $survey]);
+        return view( "new");
     }
 
-    public function new()
-    {
-        return view("new");
-    }
+    public function postSurveyStudent(Request $request) {
+        $survey = new Survey();
+        $survey->name = $request->name;
+        $survey->email = $request->email;
+        $survey->telephone = $request->telephone;
+        $survey->feedback = $request->feedback;
+        $survey->save();
+        return response()->json(['success'=>'Form is successfully submitted!']);
 
-    public function save(Request $request)
-    {
-        $request->validate([
-            "name" => "required",
-            "email" => "required",
-            "telephone" => "required",
-            "feedback" => "required",
-        ]);
-        try {
-            Survey::create([
-                "name" => $request->get("name"),
-                "email" => $request->get("email"),
-                "telephone" => $request->get("telephone"),
-                "feedback" => $request->get("feedback"),
-            ]);
-
-        } catch (\Exception $exception) {
-            return redirect()->back();
-        }
-        return redirect()->to("/list-information");
     }
 }

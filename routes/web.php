@@ -13,8 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', "Webcontroller@list");
-Route::get('/list', 'Webcontroller@list');
-Route::get('/new', 'Webcontroller@new');
-Route::post('/save', 'Webcontroller@save');
+Route::get('/', function () {
+    return view('survey');
+});
+Route::get('/survey', 'Webcontroller@surveyStudent');
+Route::post('/survey', 'Webcontroller@postSurveyStudent');
 
