@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', "Webcontroller@list");
+Route::get('/list', 'Webcontroller@list');
+Route::get('/new', 'Webcontroller@new');
+Route::post('/save', 'Webcontroller@save');
+
